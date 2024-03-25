@@ -1,3 +1,7 @@
+//Use player to facilitate match and scoring
+const player1 = createPlayer("player1", "X");
+const player2 = createPlayer("player2", "O");
+
 function createPlayer(name, marker) {
     const playerName = name;
     const playerMarker = marker;
@@ -9,22 +13,27 @@ function createPlayer(name, marker) {
     return { playerName, playerMarker, getScore, upScore }
 }
 
-const player1 = createPlayer("player1", "X");
-const player2 = createPlayer("player2", "O");
 
 
-let gameboard = [];
+//Use gameboard to keep track of markers
 
-function createCell(id) {
-    let cellId = id;
-    let cellMarker = "empty";
-    return { cellId, cellMarker }
-}
+let gameboard = createGameboard();
 
 function createGameboard() {
-    for (i=0;i<9;i++) {
-        gameboard[i] = createCell(i);
-    }
-}
+    let gameboard = [];
+    fillGameboardWithCells();
 
-createGameboard();
+    function createCell(id) {
+        let cellId = id;
+        let cellMarker = "empty";
+        return { cellId, cellMarker }
+    }
+
+    function fillGameboardWithCells() {
+        for (i=0;i<9;i++) {
+            gameboard[i] = createCell(i);
+        }
+    }
+
+    return gameboard;
+}
