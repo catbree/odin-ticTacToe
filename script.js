@@ -1,4 +1,5 @@
 //Use player to facilitate match and scoring
+
 const player1 = createPlayer("player1", "X");
 const player2 = createPlayer("player2", "O");
 
@@ -8,10 +9,11 @@ function createPlayer(name, marker) {
 
     let score = 0;
     const getScore = () => score;
-    const upScore = () => score++;
+    const increaseScore = () => score++;
 
-    return { playerName, playerMarker, getScore, upScore }
+    return { playerName, playerMarker, getScore, increaseScore }
 }
+
 
 
 
@@ -37,3 +39,20 @@ function createGameboard() {
 
     return gameboard;
 }
+
+//Use announcer to facilitate gameplay
+
+const moderator = (function () {
+    let turn = 0;
+
+    const getTurn = () => {
+        return (turn%2 == 0) ? console.log(`It is now ${player1.playerName} "${player1.playerMarker}" turn`) : console.log(`It is now ${player2.playerName} "${player2.playerMarker}" turn`);
+    } 
+    
+    const increaseTurn = () => {
+        turn++;
+        console.log(`current turn is ${turn}`);
+
+    }
+    return { getTurn, increaseTurn }
+})();
