@@ -56,3 +56,105 @@ const moderator = (function () {
     }
     return { getTurn, increaseTurn }
 })();
+
+function markCell(number,player) {
+    
+    let selectedCell = gameboard[number];
+
+    if (selectedCell.cellMarker == "empty") {
+        gameboard[number].cellMarker = player.playerMarker;
+        console.table(gameboard);
+        checkWinCondition(player);
+        checkTieCondition();
+    } else {
+        console.log(`This cell is already occupied.`)
+    }
+}
+
+function checkWinCondition(player) {
+    let x = player.playerMarker;
+    
+    if (gameboard[0].cellMarker == x && 
+        gameboard[1].cellMarker == x && 
+        gameboard[2].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+
+    if (gameboard[3].cellMarker == x && 
+        gameboard[4].cellMarker == x && 
+        gameboard[5].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+
+    if (gameboard[6].cellMarker == x && 
+        gameboard[7].cellMarker == x && 
+        gameboard[8].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+
+    if (gameboard[0].cellMarker == x && 
+        gameboard[3].cellMarker == x && 
+        gameboard[6].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+
+    if (gameboard[1].cellMarker == x && 
+        gameboard[4].cellMarker == x && 
+        gameboard[7].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+
+    if (gameboard[2].cellMarker == x && 
+        gameboard[5].cellMarker == x && 
+        gameboard[8].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+
+    if (gameboard[0].cellMarker == x && 
+        gameboard[4].cellMarker == x && 
+        gameboard[8].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+
+    if (gameboard[6].cellMarker == x && 
+        gameboard[4].cellMarker == x && 
+        gameboard[2].cellMarker == x) {
+            return announcePlayerWin(player)
+    }
+}
+
+function checkTieCondition() {
+    
+    let occupiedSpace = 0;
+
+    for (i=0;i<9;i++) {
+        if(gameboard[i].cellMarker!=='empty') {
+            occupiedSpace++;
+        }
+    }
+    if (occupiedSpace==9) {
+        announceTie();
+    } else {
+        occupiedSpace = 0;
+    }
+}
+
+function announcePlayerWin(player) {
+    console.log(`${player.playerName} has won!`)
+}
+
+function announceTie() {
+    console.log(`It's a draw!`);
+}
+
+console.table(gameboard);
+markCell(0,player1);
+markCell(1,player2);
+markCell(2,player1);
+markCell(3,player2);
+markCell(4,player1);
+markCell(5,player2);
+markCell(6,player2);
+markCell(7,player1);
+markCell(8,player2);
+
