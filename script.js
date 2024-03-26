@@ -11,7 +11,12 @@ function createPlayer(name, marker) {
     const getScore = () => score;
     const increaseScore = () => score++;
 
-    return { playerName, playerMarker, getScore, increaseScore }
+    const inputCell = () => {
+        let inputCell = prompt(`It is now your turn. Your marker is ${playerMarker}. Which cell do you want to mark?`);
+        return inputCell
+    }
+
+    return { playerName, playerMarker, getScore, increaseScore, inputCell }
 }
 
 
@@ -45,8 +50,26 @@ function createGameboard() {
 const moderator = (function () {
     let turn = 0;
 
-    const getTurn = () => {
-        return (turn%2 == 0) ? console.log(`It is now ${player1.playerName} "${player1.playerMarker}" turn`) : console.log(`It is now ${player2.playerName} "${player2.playerMarker}" turn`);
+    const playerTurn = () => {
+
+        let inputCell;
+
+        switch(turn%2) {
+            case 0:
+                console.log(`It is now ${player1.playerName} "${player1.playerMarker}" turn`);   
+                inputCell = player1.inputCell();
+                markCell(inputCell,player1);
+                break;
+            case 1:
+                console.log(`It is now ${player2.playerName} "${player2.playerMarker}" turn`);
+                inputCell = player2.inputCell();
+                markCell(inputCell,player2);
+                break;
+            default:
+                console.log(`Error: No match found.`)
+        }
+
+        increaseTurn();
     } 
     
     const increaseTurn = () => {
@@ -54,7 +77,7 @@ const moderator = (function () {
         console.log(`current turn is ${turn}`);
 
     }
-    return { getTurn, increaseTurn }
+    return { playerTurn }
 })();
 
 function markCell(number,player) {
@@ -126,6 +149,7 @@ function checkWinCondition(player) {
 function checkTieCondition() {
     
     let occupiedSpace = 0;
+    let tieCondition = false;
 
     for (i=0;i<9;i++) {
         if(gameboard[i].cellMarker!=='empty') {
@@ -133,10 +157,13 @@ function checkTieCondition() {
         }
     }
     if (occupiedSpace==9) {
+        tieCondition = true;
         announceTie();
     } else {
         occupiedSpace = 0;
     }
+
+    return tieCondition
 }
 
 function announcePlayerWin(player) {
@@ -147,14 +174,14 @@ function announceTie() {
     console.log(`It's a draw!`);
 }
 
-console.table(gameboard);
-markCell(0,player1);
-markCell(1,player2);
-markCell(2,player1);
-markCell(3,player2);
-markCell(4,player1);
-markCell(5,player2);
-markCell(6,player2);
-markCell(7,player1);
-markCell(8,player2);
+// console.table(gameboard);
+// markCell(0,player1);
+// markCell(1,player2);
+// markCell(2,player1);
+// markCell(3,player2);
+// markCell(4,player1);
+// markCell(5,player2);
+// markCell(6,player2);
+// markCell(7,player1);
+// markCell(8,player2);
 
